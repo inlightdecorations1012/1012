@@ -235,13 +235,13 @@ def validate_feature_completeness(df: pd.DataFrame, expected: List[str],
         future_features: Optional list of features not yet implemented
     """
     # Get actual features in the dataframe
-actual_features = [
-    col for col in df.columns
-    if not col.startswith('target')
-    and col not in ['timestamp', 'data_validity_mask']
-    and not col.endswith('_norm')
-    and col not in ['is_valid_price', 'is_valid_spread', 'is_valid_time_gap']  # Exclude validation columns
-]
+    actual_features = [
+        col for col in df.columns
+        if not col.startswith('target')
+        and col not in ['timestamp', 'data_validity_mask']
+        and not col.endswith('_norm')
+        and col not in ['is_valid_price', 'is_valid_spread', 'is_valid_time_gap']  # Exclude validation columns
+    ]
 
     # Find missing expected features
     missing = sorted(set(expected) - set(actual_features))
@@ -276,14 +276,14 @@ def cleanup_features_for_export(df: pd.DataFrame, complete_features: List[str]) 
         [c for c in df.columns if c.startswith('target')] +
         [f'{f}_norm' for f in complete_features if f'{f}_norm' in df.columns])
 
-# v13.4: Also keep validation masks if in preserve mode
-if 'is_valid_price' in df.columns:
-    keep.extend(['is_valid_price', 'is_valid_spread', 'is_valid_time_gap'])
-
-    # Only keep columns that exist
-    keep = [c for c in keep if c in df.columns]
-
-    return df[keep]
+    # v13.4: Also keep validation masks if in preserve mode
+    if 'is_valid_price' in df.columns:
+        keep.extend(['is_valid_price', 'is_valid_spread', 'is_valid_time_gap'])
+    
+        # Only keep columns that exist
+        keep = [c for c in keep if c in df.columns]
+    
+        return df[keep]
 
 
 # === Feature Cache for Incremental Enrichment (Updated in v13.4) ===
