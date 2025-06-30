@@ -241,12 +241,12 @@ class DataValidationStage(PipelineStage):
 
             if gap_positions:
                 # Check if gaps are expected (weekends/holidays)
-calendar_mode = getattr(tf_config, "_calendar_mode", "basic")
+                calendar_mode = getattr(tf_config, "_calendar_mode", "basic")
 
-# Retrieve or create the ForexMarketCalendar instance
-calendar = getattr(tf_config, "calendar", None)
-if calendar is None:
-    calendar = ForexMarketCalendar(calendar_mode=calendar_mode)
+                # Retrieve or create the ForexMarketCalendar instance
+                calendar = getattr(tf_config, "calendar", None)
+                if calendar is None:
+                    calendar = ForexMarketCalendar(calendar_mode=calendar_mode)
 
                 unexpected_gaps = []
                 for gap_pos in gap_positions:
