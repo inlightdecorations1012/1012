@@ -706,18 +706,18 @@ def process_single_timeframe(config: ForexConfig,
                 )
 
         # v13.4: Validate against expected features for this timeframe
-expected_features = get_expected_features_for_timeframe(tf_config, feature_registry)
+        expected_features = get_expected_features_for_timeframe(tf_config, feature_registry)
 
-# Exclude validation columns from feature validation
-feature_cols_for_validation = [
-    col for col in df.columns 
-    if col not in ['is_valid_price', 'is_valid_spread', 'is_valid_time_gap']
-]
-validate_feature_completeness(
-    df[feature_cols_for_validation], 
-    list(expected_features), 
-    FUTURE_FEATURES
-)
+        # Exclude validation columns from feature validation
+        feature_cols_for_validation = [
+            col for col in df.columns
+            if col not in ['is_valid_price', 'is_valid_spread', 'is_valid_time_gap']
+        ]
+        validate_feature_completeness(
+            df[feature_cols_for_validation],
+            list(expected_features),
+            FUTURE_FEATURES
+        )
 
         # Clean up features before export
         df = cleanup_features_for_export(df, COMPLETE_77_FEATURES)
